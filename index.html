@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Contatos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="h-screen bg-white-100">
+
+    <div class="title fixed top-0 w-full h-15vh bg-green-500 flex justify-center items-center">
+      <h1 class="text-3xl text-white ml-12">Agenda de Contatos</h1>
+        <div class="search w-1/2 mx-auto mt-4 mb-4 flex items-center">
+            <input type="text" id="ipt-pesquisa" placeholder="Pesquisar Contato..." class="w-3/4 h-10 pl-4 pr-10 text-sm text-gray-700 bg-white border-none rounded-l-md focus:outline-none">
+            <button id="btn-pesquisa" class="w-1/4 h-10 bg-green-600 text-white font-bold py-2 px-4 rounded-r-md hover:bg-green-700">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="white" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+            </button>
+        </div>  
+    </div>
+
+    <div class="forms w-4/5 mx-auto mt-40 p-4 bg-white rounded-md shadow-lg">
+        <h1 class="text-2xl">Adicionar contato:</h1>
+        <div class="flex items-center mb-4">
+          <label class="w-32 text-gray-700 text-sm ml-4">Nome:<span class="text-lg text-red-900 font-mono" title="Campo obrigatório">*</span></label>
+          <input type="text" id="nome" required class="w-full h-10 pl-4 pr-10 text-sm text-gray-700 bg-white border-2 border-green focus:border-green focus:outline-none rounded-md">
+      </div>
+      <div class="flex items-center mb-4">
+          <label class="w-32 text-gray-700 text-sm ml-4">Telefone:<span class="text-lg text-red-900 font-mono" title="Campo obrigatório">*</span></label>
+          <input type="tel" id="telefone" required class="w-full h-10 pl-4 pr-10 text-sm text-gray-700 bg-white border-2 border-green focus:border-green focus:outline-none rounded-md">
+      </div>
+      <div class="flex items-center mb-4">
+          <label class="w-32 text-gray-700 text-sm ml-4">Email:</label>
+          <input type="email" id="email" class="w-full h-10 pl-4 pr-10 text-sm text-gray-700 bg-white border-2 border-green focus:border-green focus:outline-none rounded-md">
+      </div>
+      
+        <div class="flex items-center mb-4"> 
+            <button id="btn-adicionar" class="w-10 h-10 bg-green-500 text-white font-bold py-2 px-2 rounded-full hover:bg-green-700 ml-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="white" display="flex" justify-content="center" align-items="center" class="bi bi-plus" viewBox="0 0 16 16">
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+              </button>
+            </div>
+    
+        </div>
+    
+        <div class="tabela w-4/5 mx-auto mt-4 p-4 bg-white rounded-md shadow-md">
+            <h1 class="text-2xl">Contatos:</h1>
+            <div class="flex-1 justify-between">
+              <ul id="contatos" class="list-none p-0 m-0">
+              </ul>
+            </div>
+        </div>
+    
+        <script>
+          /*
+            Nosso projeto do 2º bimestre deverá envolver os tópicos comentados até então:
+            Funções ::  FEITO
+            Funções recursivas (opcional) :: FEITO
+            Arrays :: FEITO
+            Métodos de Array (push, pop, shift, unshift, sort) :: FEITO
+            Pesquisa sequencial e pesquisa binária :: FEITO
+            */
+            let contatos = [];
+
+
+            // Verificar se os campos foram preenchidos ↓↓↓↓
+            
+
+            // Adicionar contato ↓↓↓↓↓
+            function adicionarContato(nome, telefone, email) {
+                contatos.push({nome, telefone, email});
+            }
+     
+            // Remover contato ↓↓↓↓↓
+            function removerContato(nome) {
+                contatos = contatos.filter(function(contato) {
+                    return contato.nome !== nome;
+                });
+            }
+    
+            // Buscar contato ↓↓↓↓↓
+            function buscarContato(nome) {
+                return contatos.find(function(contato) {
+                    return contato.nome === nome;
+                });
+            }
+     
+            // Ordenar os contatos ↓↓↓↓↓
+            function ordenarContatos() {
+                contatos.sort(function(a, b) {
+                    return a.nome.localeCompare(b.nome);
+                });
+            }
+    
+            // Pesquisar sequencial ↓↓↓↓↓
+            function pesquisarContatoSequencial(nome) {
+                for (let i = 0; i < contatos.length; i++) {
+                    if (contatos[i].nome === nome) {
+                        return contatos[i];
+                    }
+                }
+                return null;
+            }
+    
+            // Pesquisar binária ↓↓↓↓↓
+            function pesquisarContatoBinario(nome) {
+                let inicio = 0;
+                let fim = contatos.length - 1;
+                while (inicio <= fim) {
+                    let meio = Math.floor((inicio + fim) / 2);
+                    if (contatos[meio].nome === nome) {
+                        return contatos[meio];
+                    } else if (contatos[meio].nome < nome) {
+                        inicio = meio + 1;
+                    } else {
+                        fim = meio - 1;
+                    }
+                }
+                return null;
+            }
+    
+            document.getElementById('btn-adicionar').addEventListener('click', function() {
+                let nome = document.getElementById('nome').value;
+                let telefone = document.getElementById('telefone').value;
+                let email = document.getElementById('email').value;
+    
+                if (nome === '' || telefone === '') {
+                    alert('Por favor, preencha os campos de Nome e Telefone.');
+                } else {
+                    adicionarContato(nome, telefone, email);
+
+                    document.getElementById('nome').value = '';
+                    document.getElementById('telefone').value = '';
+                    document.getElementById('email').value = '';
+
+                    renderizarContatos();
+                }
+            });
+    
+            document.getElementById('btn-pesquisa').addEventListener('click', function() {
+                let pesquisa = document.getElementById('ipt-pesquisa').value;
+    
+                let resultado = contatos.filter(function(contato) {
+                    return contato.nome.toLowerCase().includes(pesquisa.toLowerCase()) || contato.telefone.includes(pesquisa) || contato.email.includes(pesquisa);
+                });
+    
+                renderizarContatos(resultado);
+            });
+    
+            function renderizarContatos(contatosFiltrados = contatos) {
+    let listaContatos = document.getElementById('contatos');
+
+    listaContatos.innerHTML = '';
+
+
+              //CARD DO CONTATO
+              
+    contatosFiltrados.forEach(function(contato) {
+            let item = document.createElement('li');
+            item.textContent = `${contato.nome} - ${contato.telefone} - ${contato.email}`;
+            let botaoRemover = document.createElement('button');
+            botaoRemover.style.marginLeft = '20px';
+            botaoRemover.style.background = 'red';
+            botaoRemover.style.border = 'none';
+            botaoRemover.style.padding = '5px';
+            botaoRemover.style.borderRadius = '5px';
+            botaoRemover.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 30 30">
+        <path fill="white" d="M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z"></path>
+    </svg>
+
+            `;
+            botaoRemover.addEventListener('click', function() {
+                    removerContato(contato.nome);
+                    renderizarContatos();
+                });
+                item.appendChild(botaoRemover);
+            listaContatos.appendChild(item);
+        });
+}
+
+
+        </script>
+    
+    </body>
+    </html>
